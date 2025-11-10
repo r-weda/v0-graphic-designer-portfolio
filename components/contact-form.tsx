@@ -28,7 +28,7 @@ export function ContactForm() {
       <form ref={formRef} action={formAction} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2 text-left">
-            <Label htmlFor="name" className="text-gray-300">
+            <Label htmlFor="name" className="text-slate-300">
               Name
             </Label>
             <Input
@@ -37,11 +37,11 @@ export function ContactForm() {
               type="text"
               placeholder="Your Name"
               required
-              className="bg-gray-900 border-gray-700 text-white focus:ring-red-500"
+              className="bg-slate-800 border-slate-700 text-white focus:ring-amber-500"
             />
           </div>
           <div className="space-y-2 text-left">
-            <Label htmlFor="email" className="text-gray-300">
+            <Label htmlFor="email" className="text-slate-300">
               Email
             </Label>
             <Input
@@ -50,12 +50,12 @@ export function ContactForm() {
               type="email"
               placeholder="your.email@example.com"
               required
-              className="bg-gray-900 border-gray-700 text-white focus:ring-red-500"
+              className="bg-slate-800 border-slate-700 text-white focus:ring-amber-500"
             />
           </div>
         </div>
         <div className="space-y-2 text-left">
-          <Label htmlFor="message" className="text-gray-300">
+          <Label htmlFor="message" className="text-slate-300">
             Message
           </Label>
           <Textarea
@@ -64,14 +64,14 @@ export function ContactForm() {
             placeholder="Tell me about your project..."
             required
             rows={5}
-            className="bg-gray-900 border-gray-700 text-white focus:ring-red-500"
+            className="bg-slate-800 border-slate-700 text-white focus:ring-amber-500"
           />
         </div>
         <div className="flex flex-col items-center gap-4">
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-colors disabled:bg-gray-600"
+            className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 px-8 rounded-lg transition-colors disabled:bg-slate-600"
           >
             {isPending ? (
               <>

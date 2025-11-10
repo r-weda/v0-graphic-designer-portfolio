@@ -5,160 +5,147 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { ProjectModal, type PortfolioItem } from "@/components/project-modal"
 import { CursorSpotlight } from "@/components/cursor-spotlight"
 import { ContactForm } from "@/components/contact-form"
-import { Mail, Linkedin, Dribbble, Instagram } from "lucide-react"
+import { TimelineItem } from "@/components/timeline-item"
+import { SkillsGrid } from "@/components/skills-grid"
+import { Mail, Linkedin, Bean as Behance, Youtube, Phone, Menu, X } from "lucide-react"
 
 const portfolioItems: Record<string, PortfolioItem[]> = {
-  branding: [
+  video: [
     {
       id: 1,
-      title: "Aroma Coffee Co.",
-      src: "/placeholder.svg?height=300&width=500",
-      category: "Branding & Identity",
+      title: "Content Creation Showreel",
+      src: "/professional-video-production.jpg",
+      category: "Video Production",
       description:
-        "A comprehensive branding suite for a new artisanal coffee shop. The goal was to create a warm, modern, and memorable identity that translates seamlessly from coffee cups to digital menus. The project included logo design, a custom typography system, packaging, and in-store signage.",
-      tools: ["Adobe Illustrator", "Adobe Photoshop", "Figma"],
+        "A dynamic showreel showcasing cinematic content creation work, featuring professional cinematography, color grading, and creative storytelling through video. This compilation demonstrates expertise in Adobe Premiere Pro, After Effects, and production techniques.",
+      tools: ["Adobe Premiere Pro", "After Effects", "Audition"],
     },
     {
       id: 2,
-      title: "Nexus SaaS",
-      src: "/placeholder.svg?height=300&width=500",
-      category: "Branding & UI/UX",
+      title: "Corporate Video Campaign",
+      src: "/corporate-video-campaign.jpg",
+      category: "Video Production",
       description:
-        "Rebranding for a B2B software-as-a-service platform. The new identity needed to be professional yet dynamic, reflecting the software's cutting-edge capabilities. We developed a new logo, color palette, and a complete UI style guide.",
-      tools: ["Adobe Illustrator", "Adobe XD", "Figma"],
+        "Professional corporate communication video produced for institutional clients. Features high-quality cinematography, professional color correction, and compelling narrative structure designed to engage corporate audiences.",
+      tools: ["Canon/Sony Cameras", "Adobe Premiere Pro", "After Effects"],
     },
     {
       id: 3,
-      title: "Glow Skincare",
-      src: "/placeholder.svg?height=300&width=500",
-      category: "Packaging & Branding",
+      title: "Social Media Content Series",
+      src: "/social-media-video.png",
+      category: "Content Creation",
       description:
-        "Visual identity and packaging design for an organic skincare line. The design emphasizes natural ingredients and a sense of luxury, using soft colors, elegant typography, and minimalist layouts to appeal to a discerning audience.",
-      tools: ["Adobe Illustrator", "Adobe Photoshop", "Procreate"],
-    },
-    {
-      id: 4,
-      title: "Equinox Music Fest",
-      src: "/placeholder.svg?height=300&width=500",
-      category: "Event Branding",
-      description:
-        "A vibrant and psychedelic branding system for an annual music and arts festival. The design captures the energetic and eclectic spirit of the event, used across posters, social media campaigns, merchandise, and on-site installations.",
-      tools: ["Adobe Illustrator", "Procreate", "Adobe After Effects"],
-    },
-    {
-      id: 5,
-      title: "The Sovereign Hotel",
-      src: "/placeholder.svg?height=300&width=500",
-      category: "Hospitality Branding",
-      description:
-        "An art-deco inspired identity for a luxury boutique hotel. The branding evokes timeless elegance and sophistication, applied to everything from the main logo and room keys to restaurant menus and website design.",
-      tools: ["Adobe Illustrator", "Adobe InDesign"],
+        "Engaging short-form video content optimized for social media platforms. Combines quick editing, trending audio, and visual effects to maximize engagement and reach.",
+      tools: ["Premiere Pro", "After Effects", "Adobe Audition"],
     },
   ],
-  webDesign: [
+  photography: [
     {
       id: 1,
-      title: "Atelier Fashion E-commerce",
-      src: "/placeholder.svg?height=400&width=500",
-      category: "Web Design & UI/UX",
+      title: "Wedding Photography Portfolio",
+      src: "/professional-wedding-photography.jpg",
+      category: "Photography",
       description:
-        "A clean, modern, and image-focused e-commerce website for a high-end fashion brand. The user experience is designed to be seamless and intuitive, guiding users from browsing to checkout effortlessly. The UI is minimalist to let the products shine.",
-      tools: ["Figma", "Sketch", "Next.js", "Tailwind CSS"],
+        "Comprehensive wedding coverage showcasing candid moments, professional portraits, and emotional storytelling. Features advanced lighting techniques and post-processing expertise.",
+      tools: ["Canon/Nikon/Sony", "Lightroom", "Photoshop"],
     },
     {
       id: 2,
-      title: "Wanderlust Travel Blog",
-      src: "/placeholder.svg?height=400&width=500",
-      category: "Web Design",
+      title: "Corporate Event Photography",
+      src: "/corporate-event-networking.png",
+      category: "Photography",
       description:
-        "A visually-driven website for a travel photographer and blogger. The design uses large, immersive images and elegant typography to tell compelling stories. The layout is a custom-coded masonry grid that is fully responsive.",
-      tools: ["Figma", "Next.js", "Tailwind CSS", "Framer Motion"],
+        "Professional corporate and institutional event coverage including conferences, product launches, and organizational events. High-quality editorial photography for corporate communication.",
+      tools: ["Professional DSLR", "Lightroom", "Photoshop"],
     },
     {
       id: 3,
-      title: "Photographer's Portfolio",
-      src: "/placeholder.svg?height=400&width=500",
-      category: "Web Design",
+      title: "Portrait & Headshot Collection",
+      src: "/professional-portrait.png",
+      category: "Photography",
       description:
-        "A minimalist and artistic portfolio website for a professional photographer. The design prioritizes the artwork, with a clean interface, subtle animations, and a dark theme that makes the colors in the photos pop.",
-      tools: ["Figma", "Webflow", "JavaScript"],
+        "Professional portrait photography including corporate headshots, editorial portraits, and lifestyle photography. Features studio lighting setup and natural light techniques.",
+      tools: ["Canon/Nikon", "Lightroom", "Capture One"],
+    },
+  ],
+  design: [
+    {
+      id: 1,
+      title: "Brand Identity Design",
+      src: "/brand-identity-logo-design.jpg",
+      category: "Graphic Design",
+      description:
+        "Comprehensive brand identity development including logo design, color palette development, and brand guidelines. Designed for corporate clients requiring professional visual identity systems.",
+      tools: ["Adobe Illustrator", "Photoshop", "Figma"],
     },
     {
-      id: 4,
-      title: "Fintech Dashboard",
-      src: "/placeholder.svg?height=400&width=500",
+      id: 2,
+      title: "Social Media Marketing Design",
+      src: "/social-media-marketing-graphics.jpg",
+      category: "Graphic Design",
+      description:
+        "Strategic social media content design including graphics, posters, and promotional materials. Combines typography, imagery, and design principles for maximum impact and engagement.",
+      tools: ["Photoshop", "Illustrator", "Canva"],
+    },
+    {
+      id: 3,
+      title: "UI/UX Interface Design",
+      src: "/user-interface-design-ux.jpg",
       category: "UI/UX Design",
       description:
-        "A complex data visualization dashboard for a financial technology company. The UI/UX was designed to simplify complex data, making it easy for users to track investments, view analytics, and generate reports through intuitive charts and graphs.",
-      tools: ["Figma", "React", "D3.js"],
-    },
-    {
-      id: 5,
-      title: "Gourmet Recipe App",
-      src: "/placeholder.svg?height=400&width=500",
-      category: "Mobile App Design",
-      description:
-        "A user-friendly and colorful mobile app for discovering and saving recipes. The interface is designed to be fun and engaging, with features like a step-by-step cooking mode, ingredient checklists, and user-submitted photos.",
-      tools: ["Figma", "Swift", "Kotlin"],
-    },
-  ],
-  illustration: [
-    {
-      id: 1,
-      title: "Cosmic Contemplation",
-      src: "/placeholder.svg?height=500&width=500",
-      category: "Editorial Illustration",
-      description:
-        "A surreal and thought-provoking editorial illustration for a magazine cover about the future of space exploration. The artwork combines celestial elements with human figures to evoke a sense of wonder and introspection.",
-      tools: ["Procreate", "Adobe Photoshop", "Wacom Tablet"],
-    },
-    {
-      id: 2,
-      title: "Ferdinand the Fox",
-      src: "/placeholder.svg?height=500&width=500",
-      category: "Character Design",
-      description:
-        "Character design for a children's book protagonist, Ferdinand the Fox. He is a curious and brave adventurer, and his design reflects his personality with expressive features and a friendly demeanor.",
-      tools: ["Procreate", "Clip Studio Paint", "Wacom Tablet"],
-    },
-    {
-      id: 3,
-      title: "Atmospheric Album Art",
-      src: "/placeholder.svg?height=500&width=500",
-      category: "Album Art",
-      description:
-        "Abstract and atmospheric album cover for an ambient electronic artist. The artwork uses gradients, textures, and subtle geometric shapes to visually represent the soundscape of the music.",
-      tools: ["Adobe Photoshop", "Affinity Photo", "TouchDesigner"],
-    },
-    {
-      id: 4,
-      title: "Botanical Packaging",
-      src: "/placeholder.svg?height=500&width=500",
-      category: "Packaging Illustration",
-      description:
-        "A series of detailed botanical line-art illustrations for a brand of organic teas. Each illustration corresponds to a different tea blend, featured prominently on the packaging to highlight the natural ingredients.",
-      tools: ["Adobe Illustrator", "Wacom Tablet"],
-    },
-    {
-      id: 5,
-      title: "The Water Cycle Infographic",
-      src: "/placeholder.svg?height=500&width=500",
-      category: "Infographic Design",
-      description:
-        "A detailed and engaging infographic explaining the water cycle for an educational publication. The illustration simplifies a complex process into an easy-to-understand visual narrative, suitable for both print and digital formats.",
-      tools: ["Adobe Illustrator", "Figma"],
+        "Digital interface design for web and mobile applications. User-centered design approach focusing on accessibility, usability, and visual hierarchy.",
+      tools: ["Figma", "Adobe XD", "Illustrator"],
     },
   ],
 }
 
+const workExperience = [
+  {
+    title: "Creative Designer & Media Practitioner",
+    company: "University of Embu",
+    period: "July 2022 - Present",
+    description:
+      "Lead creative and media production for institutional communications. Manage visual content creation, video production, and digital asset development. Collaborate with departments on communication strategies.",
+  },
+  {
+    title: "Communication Officer",
+    company: "County Government of Vihiga",
+    period: "2019 - 2020",
+    description:
+      "Managed corporate communications and media relations. Coordinated with media outlets, created press materials, and developed communication strategies for government initiatives.",
+  },
+  {
+    title: "Content Creator & Intern",
+    company: "Lubao FM",
+    period: "2019",
+    description:
+      "Produced multimedia content for radio station including audio editing, social media content, and on-air graphics. Gained hands-on experience in broadcast media production.",
+  },
+]
+
+const coreSkills = [
+  { category: "Video Production", skills: ["Adobe Premiere Pro", "After Effects", "Adobe Audition", "Cinematography"] },
+  { category: "Photography", skills: ["Canon", "Nikon", "Sony", "Lightroom", "Adobe Photoshop"] },
+  { category: "Graphic Design", skills: ["Adobe Illustrator", "Photoshop", "InDesign", "Figma"] },
+  {
+    category: "Content Creation",
+    skills: ["Social Media Marketing", "Scriptwriting", "Video Editing", "Content Strategy"],
+  },
+  {
+    category: "Digital Tools",
+    skills: ["UI/UX Design", "Digital Marketing", "Adobe Creative Suite", "Design Systems"],
+  },
+  { category: "Communication", skills: ["Corporate Communication", "Media Relations", "Journalism", "Storytelling"] },
+]
+
 export default function DesignerPortfolio() {
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null)
   const [isHoveringInteractive, setIsHoveringInteractive] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest("a, button, .cursor-pointer")) {
@@ -172,54 +159,130 @@ export default function DesignerPortfolio() {
     }
   }
 
+  const handleMobileNavClick = () => {
+    setIsMobileMenuOpen(false)
+  }
+
   return (
     <div
-      className="bg-gray-950 text-white min-h-screen font-sans relative z-0"
+      className="bg-gradient-to-b from-slate-900 to-slate-950 text-white min-h-screen font-sans relative z-0"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
       <CursorSpotlight isHovering={isHoveringInteractive} />
       <div className="relative z-10">
-        <header className="sticky top-0 z-30 w-full p-4 sm:p-6 bg-gray-950/80 backdrop-blur-sm">
+        {/* Header */}
+        <header className="sticky top-0 z-30 w-full p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50">
           <div className="container mx-auto flex items-center justify-between">
-            <Link href="#" className="text-2xl font-bold tracking-tight text-red-500">
-              v0 creator
+            <Link href="#" className="text-2xl font-bold tracking-tight text-amber-500">
+              BM
             </Link>
-            <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-              <Link href="#portfolio" className="hover:text-red-500 transition-colors">
+            <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+              <Link href="#portfolio" className="hover:text-amber-500 transition-colors">
                 Portfolio
               </Link>
-              <Link href="#about" className="hover:text-red-500 transition-colors">
+              <Link href="#about" className="hover:text-amber-500 transition-colors">
                 About
               </Link>
-              <Link href="#contact" className="hover:text-red-500 transition-colors">
+              <Link href="#experience" className="hover:text-amber-500 transition-colors">
+                Experience
+              </Link>
+              <Link href="#contact" className="hover:text-amber-500 transition-colors">
                 Contact
               </Link>
             </nav>
-            <Button className="md:hidden" variant="ghost" size="icon">
-              <span className="sr-only">Menu</span>
+            <Button
+              className="md:hidden"
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
           </div>
+
+          {isMobileMenuOpen && (
+            <nav className="md:hidden mt-4 space-y-3 border-t border-slate-700/50 pt-4">
+              <Link
+                href="#portfolio"
+                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                onClick={handleMobileNavClick}
+              >
+                Portfolio
+              </Link>
+              <Link
+                href="#about"
+                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                onClick={handleMobileNavClick}
+              >
+                About
+              </Link>
+              <Link
+                href="#experience"
+                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                onClick={handleMobileNavClick}
+              >
+                Experience
+              </Link>
+              <Link
+                href="#contact"
+                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                onClick={handleMobileNavClick}
+              >
+                Contact
+              </Link>
+            </nav>
+          )}
         </header>
 
-        <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
-          <section className="text-center my-12 sm:my-20">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter">
-              Crafting Visuals,
-              <br />
-              <span className="text-red-500">Telling Stories.</span>
-            </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-gray-400 text-lg sm:text-xl">
-              A passionate graphic designer specializing in branding, UI/UX, and digital illustration.
-            </p>
+        <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">
+          {/* Hero Section */}
+          <section className="space-y-6 my-12 sm:my-20">
+            <div className="max-w-3xl">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight">
+                Brian
+                <br />
+                <span className="text-amber-500">Miheso</span>
+              </h1>
+              <p className="mt-4 text-xl sm:text-2xl font-semibold text-slate-300">
+                Media Practitioner | Creative Designer | Content Creator
+              </p>
+              <p className="mt-2 text-base text-slate-400">
+                Transforming ideas into compelling visual stories through design, cinematography, and strategic
+                communication.
+              </p>
+            </div>
+
+            {/* Quick Contact */}
+            <div className="flex flex-wrap gap-4 pt-4">
+              <Link
+                href="tel:+254758073530"
+                className="inline-flex items-center gap-2 text-slate-300 hover:text-amber-500 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="text-sm">+254 758 073 530</span>
+              </Link>
+              <Link
+                href="mailto:brianmihesoscoh@gmail.com"
+                className="inline-flex items-center gap-2 text-slate-300 hover:text-amber-500 transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                <span className="text-sm">brianmihesoscoh@gmail.com</span>
+              </Link>
+            </div>
           </section>
 
-          <section id="portfolio" className="space-y-12 sm:space-y-16">
+          {/* Portfolio Section */}
+          <section id="portfolio" className="space-y-12 sm:space-y-16 my-20 sm:my-32">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">Branding & Identity</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Video Production & Cinematography</h2>
+              <p className="text-slate-400 mb-6">
+                Professional video content showcasing cinematography and storytelling expertise
+              </p>
               <div className="relative">
-                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
-                  {portfolioItems.branding.map((item) => (
+                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
+                  {portfolioItems.video.map((item) => (
                     <div
                       key={item.id}
                       className="group block flex-shrink-0 w-72 sm:w-80 md:w-96 cursor-pointer"
@@ -234,10 +297,10 @@ export default function DesignerPortfolio() {
                           className="aspect-video object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <h3 className="mt-3 text-base font-medium group-hover:text-red-500 transition-colors">
+                      <h3 className="mt-3 text-base font-medium group-hover:text-amber-500 transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-gray-400">{item.category}</p>
+                      <p className="text-sm text-slate-400">{item.category}</p>
                     </div>
                   ))}
                 </div>
@@ -245,10 +308,13 @@ export default function DesignerPortfolio() {
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">Web & UI/UX Design</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Photography</h2>
+              <p className="text-slate-400 mb-6">
+                Professional photography across weddings, events, and corporate assignments
+              </p>
               <div className="relative">
-                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
-                  {portfolioItems.webDesign.map((item) => (
+                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
+                  {portfolioItems.photography.map((item) => (
                     <div
                       key={item.id}
                       className="group block flex-shrink-0 w-72 sm:w-80 md:w-96 cursor-pointer"
@@ -263,10 +329,10 @@ export default function DesignerPortfolio() {
                           className="aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <h3 className="mt-3 text-base font-medium group-hover:text-red-500 transition-colors">
+                      <h3 className="mt-3 text-base font-medium group-hover:text-amber-500 transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-gray-400">{item.category}</p>
+                      <p className="text-sm text-slate-400">{item.category}</p>
                     </div>
                   ))}
                 </div>
@@ -274,10 +340,11 @@ export default function DesignerPortfolio() {
             </div>
 
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">Illustration</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Graphic Design & UI/UX</h2>
+              <p className="text-slate-400 mb-6">Brand identity, digital interfaces, and visual communication design</p>
               <div className="relative">
-                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
-                  {portfolioItems.illustration.map((item) => (
+                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
+                  {portfolioItems.design.map((item) => (
                     <div
                       key={item.id}
                       className="group block flex-shrink-0 w-64 sm:w-72 md:w-80 cursor-pointer"
@@ -292,10 +359,10 @@ export default function DesignerPortfolio() {
                           className="aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                      <h3 className="mt-3 text-base font-medium group-hover:text-red-500 transition-colors">
+                      <h3 className="mt-3 text-base font-medium group-hover:text-amber-500 transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-gray-400">{item.category}</p>
+                      <p className="text-sm text-slate-400">{item.category}</p>
                     </div>
                   ))}
                 </div>
@@ -303,50 +370,107 @@ export default function DesignerPortfolio() {
             </div>
           </section>
 
+          {/* Skills Section */}
+          <section id="skills" className="my-20 sm:my-32">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-12">Core Skills & Expertise</h2>
+            <SkillsGrid skills={coreSkills} />
+          </section>
+
+          {/* About Section */}
           <section id="about" className="my-20 sm:my-32">
-            <div className="grid md:grid-cols-3 gap-8 sm:gap-12 items-center">
-              <div className="md:col-span-1">
-                <Avatar className="w-40 h-40 sm:w-48 sm:h-48 mx-auto md:mx-0 border-4 border-red-500">
-                  <AvatarImage src="/placeholder.svg?height=200&width=200" />
-                  <AvatarFallback>VC</AvatarFallback>
-                </Avatar>
+            <div className="grid md:grid-cols-2 gap-12 items-start">
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">About Me</h2>
+                <div className="space-y-4 text-slate-300 leading-relaxed">
+                  <p>
+                    I'm a trained journalist with a BSc in Communication and Journalism from Maasai Mara University,
+                    accredited by the Media Council of Kenya. With a passion for multimedia storytelling, I combine
+                    journalistic integrity with creative design and production expertise.
+                  </p>
+                  <p>
+                    As a Creative Designer at the University of Embu (PSC Intern Cohort 3), I transform complex
+                    information into compelling visual and multimedia narratives. My work spans corporate communication,
+                    media relations, content creation, and strategic visual communication.
+                  </p>
+                  <p>
+                    Specializing in graphic design, video production, cinematography, and photography, I help brands and
+                    organizations tell their stories through professional multimedia content. I'm passionate about
+                    music, art, and Kenyan culture, bringing a unique creative perspective to every project.
+                  </p>
+                </div>
               </div>
-              <div className="md:col-span-2 text-center md:text-left">
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">About Me</h2>
-                <p className="text-gray-300 leading-relaxed">
-                  I'm a creative and detail-oriented graphic designer with over 8 years of experience in delivering
-                  impactful visual solutions. My work is driven by a passion for clean aesthetics and user-centric
-                  design. I thrive on collaborating with clients to translate their vision into compelling brand stories
-                  and digital experiences.
-                </p>
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">Education</h2>
+                <div className="space-y-6">
+                  <div className="border-l-2 border-amber-500 pl-4">
+                    <h3 className="font-semibold text-lg">BSc in Communication and Journalism</h3>
+                    <p className="text-amber-500">Maasai Mara University</p>
+                    <p className="text-sm text-slate-400">Accredited by Media Council of Kenya</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg text-slate-300">Professional Focus</h3>
+                    <ul className="text-sm text-slate-400 space-y-2 mt-2">
+                      <li>• Corporate Communication & Media Relations</li>
+                      <li>• Multimedia Content Creation</li>
+                      <li>• Visual Storytelling & Design</li>
+                      <li>• Strategic Communication Planning</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
 
+          {/* Experience Timeline */}
+          <section id="experience" className="my-20 sm:my-32">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-12">Work Experience</h2>
+            <div className="space-y-8">
+              {workExperience.map((exp, index) => (
+                <TimelineItem key={index} {...exp} isLast={index === workExperience.length - 1} />
+              ))}
+            </div>
+          </section>
+
+          {/* Contact Section */}
           <section id="contact" className="my-20 sm:my-32 text-center">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Let's Create Together</h2>
-            <p className="max-w-xl mx-auto text-gray-400 mb-12">
-              Have a project in mind or just want to say hello? I'd love to hear from you.
+            <p className="max-w-xl mx-auto text-slate-400 mb-12">
+              Have a project in mind or want to collaborate? I'd love to hear from you.
             </p>
             <ContactForm />
             <div className="mt-16">
-              <p className="text-lg text-gray-400 mb-6">Or find me on</p>
+              <p className="text-lg text-slate-400 mb-6">Connect with me</p>
               <div className="flex justify-center items-center space-x-6 sm:space-x-8">
-                <Link href="mailto:hello@v0creator.dev" className="text-gray-400 hover:text-red-500 transition-colors">
+                <Link
+                  href="mailto:brianmihesoscoh@gmail.com"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
                   <Mail className="w-7 h-7 sm:w-8 sm:h-8" />
                   <span className="sr-only">Email</span>
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-red-500 transition-colors">
+                <Link
+                  href="https://www.linkedin.com/in/brian-miheso-98b962a1/"
+                  target="_blank"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
                   <Linkedin className="w-7 h-7 sm:w-8 sm:h-8" />
                   <span className="sr-only">LinkedIn</span>
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-red-500 transition-colors">
-                  <Dribbble className="w-7 h-7 sm:w-8 sm:h-8" />
-                  <span className="sr-only">Dribbble</span>
+                <Link
+                  href="https://www.behance.net/brianmihesoscoh"
+                  target="_blank"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
+                  <Behance className="w-7 h-7 sm:w-8 sm:h-8" />
+                  <span className="sr-only">Behance</span>
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-red-500 transition-colors">
-                  <Instagram className="w-7 h-7 sm:w-8 sm:h-8" />
-                  <span className="sr-only">Instagram</span>
+                <Link
+                  href="https://www.youtube.com/@user-BrianMiheso"
+                  target="_blank"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
+                  <Youtube className="w-7 h-7 sm:w-8 sm:h-8" />
+                  <span className="sr-only">YouTube</span>
                 </Link>
               </div>
             </div>
@@ -355,8 +479,11 @@ export default function DesignerPortfolio() {
 
         <ProjectModal project={selectedProject} isOpen={!!selectedProject} onClose={() => setSelectedProject(null)} />
 
-        <footer className="container mx-auto px-6 py-6 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} v0 creator. All Rights Reserved.</p>
+        <footer className="container mx-auto px-6 py-8 text-center text-slate-500 border-t border-slate-700/50">
+          <p>
+            &copy; {new Date().getFullYear()} Brian Miheso. All Rights Reserved. | Media Practitioner • Creative
+            Designer • Content Creator
+          </p>
         </footer>
       </div>
     </div>
