@@ -1,6 +1,7 @@
 "use client"
 
-import { Star, Quote } from "lucide-react"
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react"
 
 interface Testimonial {
   quote: string
@@ -9,6 +10,9 @@ interface Testimonial {
 }
 
 export function TestimonialsSection() {
+  const [current, setCurrent] = useState(0)
+  const [autoPlay, setAutoPlay] = useState(true)
+
   const testimonials: Testimonial[] = [
     {
       quote:
@@ -30,30 +34,124 @@ export function TestimonialsSection() {
     },
   ]
 
+  useEffect(() => {
+    if (!autoPlay) return
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [autoPlay, testimonials.length])
+
+  const next = () => {
+    setCurrent((prev) => (prev + 1) % testimonials.length)
+    setAutoPlay(false)
+  }
+
+  const prev = () => {
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+    setAutoPlay(false)
+  }
+
   return (
-    <div className="grid md:grid-cols-3 gap-8">
-      {testimonials.map((testimonial, index) => (
-        <div
-          key={index}
-          className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-8 hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10"
+    <div className="space-y-8">
+      <div className="relative max-w-2xl mx-auto">
+        {/* Carousel Items */}
+        <div className="relative h-96 sm:h-80">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
+                index === current
+                  ? "opacity-100 scale-100 translate-x-0"
+                  : index > current
+                    ? "opacity-0 scale-95 translate-x-full"
+                    : "opacity-0 scale-95 -translate-x-full"
+              }`}
+            >
+              <div className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-8 h-full flex flex-col hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10">
+                <Quote className="w-8 h-8 text-orange-500/30 mb-4 group-hover:text-orange-500 transition-colors" />
+                <p className="text-slate-300 leading-relaxed mb-6 flex-1 text-base sm:text-lg">{testimonial.quote}</p>
+                <div className="flex items-center gap-3 pt-4 border-t border-slate-700">
+                  <div className="flex-1">
+                    <p className="font-semibold text-white">{testimonial.author}</p>
+                    <p className="text-sm text-slate-400">{testimonial.role}</p>
+                  </div>
+                  <div className="flex gap-1">
+                    {Array(5)
+                      .fill(null)
+                      .map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation Buttons */}
+        <button
+          onClick={prev}
+          onMouseEnter={() => setAutoPlay(false)}
+          onMouseLeave={() => setAutoPlay(true)}
+          className="absolute -left-12 sm:-left-16 top-1/2 transform -translate-y-1/2 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10"
+          aria-label="Previous testimonial"
         >
-          <Quote className="w-8 h-8 text-orange-500/30 mb-4" />
-          <p className="text-slate-300 leading-relaxed mb-6">{testimonial.quote}</p>
-          <div className="flex items-center gap-3 pt-4 border-t border-slate-700">
-            <div>
-              <p className="font-semibold text-white">{testimonial.author}</p>
-              <p className="text-sm text-slate-400">{testimonial.role}</p>
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={next}
+          onMouseEnter={() => setAutoPlay(false)}
+          onMouseLeave={() => setAutoPlay(true)}
+          className="absolute -right-12 sm:-right-16 top-1/2 transform -translate-y-1/2 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Dot Navigation Indicators */}
+      <div className="flex justify-center gap-2">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setCurrent(index)
+              setAutoPlay(false)
+            }}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === current ? "bg-orange-500 w-8" : "bg-slate-600 hover:bg-slate-500"
+            }`}
+            aria-label={`Go to testimonial ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Fallback static view for mobile or when carousel disabled */}
+      <div className="hidden md:grid md:grid-cols-3 gap-8 md:hidden lg:hidden">
+        {testimonials.map((testimonial, index) => (
+          <div
+            key={index}
+            className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-8 hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10"
+          >
+            <Quote className="w-8 h-8 text-orange-500/30 mb-4" />
+            <p className="text-slate-300 leading-relaxed mb-6">{testimonial.quote}</p>
+            <div className="flex items-center gap-3 pt-4 border-t border-slate-700">
+              <div>
+                <p className="font-semibold text-white">{testimonial.author}</p>
+                <p className="text-sm text-slate-400">{testimonial.role}</p>
+              </div>
+            </div>
+            <div className="flex gap-1 mt-4">
+              {Array(5)
+                .fill(null)
+                .map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
+                ))}
             </div>
           </div>
-          <div className="flex gap-1 mt-4">
-            {Array(5)
-              .fill(null)
-              .map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
-              ))}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

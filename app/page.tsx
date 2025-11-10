@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ProjectModal, type PortfolioItem } from "@/components/project-modal"
@@ -150,14 +150,27 @@ export default function DesignerPortfolio() {
   const [isHoveringInteractive, setIsHoveringInteractive] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const navbarRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300)
+      const currentScrollY = window.scrollY
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsNavbarVisible(false)
+      } else {
+        setIsNavbarVisible(true)
+      }
+
+      setLastScrollY(currentScrollY)
+      setShowScrollTop(currentScrollY > 300)
     }
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [lastScrollY])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -189,8 +202,12 @@ export default function DesignerPortfolio() {
     >
       <CursorSpotlight isHovering={isHoveringInteractive} />
       <div className="relative z-10">
-        {/* Header */}
-        <header className="sticky top-0 z-30 w-full p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
+        <header
+          ref={navbarRef}
+          className={`fixed top-0 z-30 w-full p-4 sm:p-6 bg-slate-950/90 backdrop-blur-md border-b border-orange-500/20 transition-all duration-300 ease-out ${
+            isNavbarVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="container mx-auto flex items-center justify-between">
             <Link
               href="#"
@@ -257,8 +274,7 @@ export default function DesignerPortfolio() {
           )}
         </header>
 
-        <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">
-          {/* Hero Section */}
+        <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 pt-20">
           <section className="relative min-h-screen flex items-center justify-center py-20 sm:py-32">
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl"></div>
@@ -323,12 +339,10 @@ export default function DesignerPortfolio() {
             </div>
           </section>
 
-          {/* Stats Section */}
           <section className="my-20 sm:my-32">
             <StatsSection />
           </section>
 
-          {/* Featured Work Section */}
           <section className="my-20 sm:my-32">
             <div className="mb-16">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3">Featured Work</h2>
@@ -337,7 +351,6 @@ export default function DesignerPortfolio() {
             <FeaturedWork />
           </section>
 
-          {/* Portfolio Section */}
           <section id="portfolio" className="my-20 sm:my-32">
             <div className="mb-12">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3">Complete Portfolio</h2>
@@ -348,13 +361,11 @@ export default function DesignerPortfolio() {
             <PortfolioGrid items={allPortfolioItems} onSelectProject={setSelectedProject} />
           </section>
 
-          {/* Skills Section */}
           <section id="skills" className="my-20 sm:my-32">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-12">Core Skills & Expertise</h2>
             <SkillsGrid skills={coreSkills} />
           </section>
 
-          {/* Testimonials Section */}
           <section className="my-20 sm:my-32">
             <div className="mb-12">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3">Client Testimonials</h2>
@@ -365,7 +376,6 @@ export default function DesignerPortfolio() {
             <TestimonialsSection />
           </section>
 
-          {/* About Section */}
           <section id="about" className="my-20 sm:my-32">
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
               <div>
@@ -418,7 +428,6 @@ export default function DesignerPortfolio() {
             </div>
           </section>
 
-          {/* Experience Timeline */}
           <section id="experience" className="my-20 sm:my-32">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-12">Work Experience</h2>
             <div className="space-y-0">
@@ -428,7 +437,6 @@ export default function DesignerPortfolio() {
             </div>
           </section>
 
-          {/* Contact Section */}
           <section id="contact" className="my-20 sm:my-32 text-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">Let's Create Together</h2>
             <p className="max-w-xl mx-auto text-slate-400 text-lg mb-12">

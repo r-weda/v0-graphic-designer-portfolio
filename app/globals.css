@@ -168,6 +168,21 @@ html {
   animation: gradient-shift 6s ease infinite;
 }
 
+@keyframes animate-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: animate-fade-in 0.3s ease-out;
+}
+
 /* Custom scrollbar for webkit browsers */
 .scrollbar-thin::-webkit-scrollbar {
   height: 6px;
@@ -185,4 +200,113 @@ html {
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-600;
+}
+
+/* added animations for navbar hide/show effect and enhanced scrollbar */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+.ripple-click {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-click::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  animation: ripple 0.6s ease-out;
+}
+
+.navbar-enter {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Enhanced scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-950;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-orange-600/50;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-orange-500;
 }

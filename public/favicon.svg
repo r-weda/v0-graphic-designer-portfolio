@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="#FF8C00" opacity="0.1"/>
+  
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#FF8C00" stroke-width="2"/>
+  
+  <!-- Letter B -->
+  <text x="65" y="125" font-family="Arial, sans-serif" font-size="90" font-weight="bold" fill="#FF8C00" letter-spacing="2">B</text>
+  
+  <!-- Letter M -->
+  <text x="110" y="125" font-family="Arial, sans-serif" font-size="90" font-weight="bold" fill="#FFFFFF" letter-spacing="2">M</text>
+</svg>
