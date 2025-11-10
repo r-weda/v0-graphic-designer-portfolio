@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Loader2, CheckCircle, AlertTriangle } from "lucide-react"
+import { Loader2, CheckCircle, AlertTriangle, Send } from "lucide-react"
 
 const initialState = {
   message: "",
@@ -37,7 +37,7 @@ export function ContactForm() {
               type="text"
               placeholder="Your Name"
               required
-              className="bg-slate-800 border-slate-700 text-white focus:ring-amber-500"
+              className="bg-slate-800 border-slate-700 text-white focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
           <div className="space-y-2 text-left">
@@ -50,7 +50,7 @@ export function ContactForm() {
               type="email"
               placeholder="your.email@example.com"
               required
-              className="bg-slate-800 border-slate-700 text-white focus:ring-amber-500"
+              className="bg-slate-800 border-slate-700 text-white focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
         </div>
@@ -64,22 +64,25 @@ export function ContactForm() {
             placeholder="Tell me about your project..."
             required
             rows={5}
-            className="bg-slate-800 border-slate-700 text-white focus:ring-amber-500"
+            className="bg-slate-800 border-slate-700 text-white focus:ring-orange-500 focus:border-orange-500"
           />
         </div>
         <div className="flex flex-col items-center gap-4">
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 px-8 rounded-lg transition-colors disabled:bg-slate-600"
+            className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:bg-slate-600"
           >
             {isPending ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
                 Sending...
               </>
             ) : (
-              "Send Message"
+              <>
+                Send Message
+                <Send className="w-4 h-4" />
+              </>
             )}
           </Button>
           {state.message && (

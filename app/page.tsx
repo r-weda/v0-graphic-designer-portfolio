@@ -2,16 +2,19 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ProjectModal, type PortfolioItem } from "@/components/project-modal"
 import { CursorSpotlight } from "@/components/cursor-spotlight"
 import { ContactForm } from "@/components/contact-form"
 import { TimelineItem } from "@/components/timeline-item"
 import { SkillsGrid } from "@/components/skills-grid"
-import { Mail, Linkedin, Bean as Behance, Youtube, Phone, Menu, X } from "lucide-react"
+import { PortfolioGrid } from "@/components/portfolio-grid"
+import { StatsSection } from "@/components/stats-section"
+import { TestimonialsSection } from "@/components/testimonials-section"
+import { FeaturedWork } from "@/components/featured-work"
+import { Mail, Linkedin, Bean as Behance, Youtube, Phone, Menu, X, ArrowRight, ChevronDown } from "lucide-react"
 
 const portfolioItems: Record<string, PortfolioItem[]> = {
   video: [
@@ -146,6 +149,19 @@ export default function DesignerPortfolio() {
   const [selectedProject, setSelectedProject] = useState<PortfolioItem | null>(null)
   const [isHoveringInteractive, setIsHoveringInteractive] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).closest("a, button, .cursor-pointer")) {
@@ -163,31 +179,36 @@ export default function DesignerPortfolio() {
     setIsMobileMenuOpen(false)
   }
 
+  const allPortfolioItems = [...portfolioItems.video, ...portfolioItems.photography, ...portfolioItems.design]
+
   return (
     <div
-      className="bg-gradient-to-b from-slate-900 to-slate-950 text-white min-h-screen font-sans relative z-0"
+      className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen font-sans relative z-0"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
       <CursorSpotlight isHovering={isHoveringInteractive} />
       <div className="relative z-10">
         {/* Header */}
-        <header className="sticky top-0 z-30 w-full p-4 sm:p-6 bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50">
+        <header className="sticky top-0 z-30 w-full p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md border-b border-slate-700/50">
           <div className="container mx-auto flex items-center justify-between">
-            <Link href="#" className="text-2xl font-bold tracking-tight text-amber-500">
+            <Link
+              href="#"
+              className="text-2xl font-bold tracking-tight bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent"
+            >
               BM
             </Link>
             <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-              <Link href="#portfolio" className="hover:text-amber-500 transition-colors">
+              <Link href="#portfolio" className="text-slate-300 hover:text-orange-500 transition-colors">
                 Portfolio
               </Link>
-              <Link href="#about" className="hover:text-amber-500 transition-colors">
+              <Link href="#about" className="text-slate-300 hover:text-orange-500 transition-colors">
                 About
               </Link>
-              <Link href="#experience" className="hover:text-amber-500 transition-colors">
+              <Link href="#experience" className="text-slate-300 hover:text-orange-500 transition-colors">
                 Experience
               </Link>
-              <Link href="#contact" className="hover:text-amber-500 transition-colors">
+              <Link href="#contact" className="text-slate-300 hover:text-orange-500 transition-colors">
                 Contact
               </Link>
             </nav>
@@ -206,28 +227,28 @@ export default function DesignerPortfolio() {
             <nav className="md:hidden mt-4 space-y-3 border-t border-slate-700/50 pt-4">
               <Link
                 href="#portfolio"
-                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                className="block px-2 py-2 text-slate-300 hover:text-orange-500 transition-colors text-sm font-medium"
                 onClick={handleMobileNavClick}
               >
                 Portfolio
               </Link>
               <Link
                 href="#about"
-                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                className="block px-2 py-2 text-slate-300 hover:text-orange-500 transition-colors text-sm font-medium"
                 onClick={handleMobileNavClick}
               >
                 About
               </Link>
               <Link
                 href="#experience"
-                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                className="block px-2 py-2 text-slate-300 hover:text-orange-500 transition-colors text-sm font-medium"
                 onClick={handleMobileNavClick}
               >
                 Experience
               </Link>
               <Link
                 href="#contact"
-                className="block px-2 py-2 hover:text-amber-500 transition-colors text-sm font-medium"
+                className="block px-2 py-2 text-slate-300 hover:text-orange-500 transition-colors text-sm font-medium"
                 onClick={handleMobileNavClick}
               >
                 Contact
@@ -238,150 +259,118 @@ export default function DesignerPortfolio() {
 
         <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">
           {/* Hero Section */}
-          <section className="space-y-6 my-12 sm:my-20">
-            <div className="max-w-3xl">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight">
-                Brian
-                <br />
-                <span className="text-amber-500">Miheso</span>
-              </h1>
-              <p className="mt-4 text-xl sm:text-2xl font-semibold text-slate-300">
-                Media Practitioner | Creative Designer | Content Creator
-              </p>
-              <p className="mt-2 text-base text-slate-400">
-                Transforming ideas into compelling visual stories through design, cinematography, and strategic
-                communication.
-              </p>
+          <section className="relative min-h-screen flex items-center justify-center py-20 sm:py-32">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl"></div>
             </div>
 
-            {/* Quick Contact */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Link
-                href="tel:+254758073530"
-                className="inline-flex items-center gap-2 text-slate-300 hover:text-amber-500 transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="text-sm">+254 758 073 530</span>
-              </Link>
-              <Link
-                href="mailto:brianmihesoscoh@gmail.com"
-                className="inline-flex items-center gap-2 text-slate-300 hover:text-amber-500 transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                <span className="text-sm">brianmihesoscoh@gmail.com</span>
-              </Link>
+            <div className="text-center space-y-8 fade-in-up max-w-4xl mx-auto">
+              <div>
+                <h1 className="text-6xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-tight mb-6">
+                  Brian
+                  <br />
+                  <span className="bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 bg-clip-text text-transparent">
+                    Miheso
+                  </span>
+                </h1>
+                <p className="mt-4 text-xl sm:text-2xl font-semibold text-slate-300">
+                  Media Practitioner | Creative Designer | Content Creator
+                </p>
+                <p className="mt-4 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                  Transforming ideas into compelling visual stories through cinematography, design, and strategic
+                  communication. Award-accredited media professional based in Kenya.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <Link
+                  href="#portfolio"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-all duration-300 hover:gap-3"
+                >
+                  View My Work
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="#contact"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-orange-500/30 hover:border-orange-500 text-orange-400 hover:text-orange-300 font-semibold rounded-lg transition-all duration-300"
+                >
+                  Get In Touch
+                  <Mail className="w-4 h-4" />
+                </Link>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-6 justify-center pt-8 border-t border-slate-700/50">
+                <Link
+                  href="tel:+254758073530"
+                  className="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-orange-500 transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span className="text-sm">+254 758 073 530</span>
+                </Link>
+                <Link
+                  href="mailto:brianmihesoscoh@gmail.com"
+                  className="inline-flex items-center justify-center gap-2 text-slate-300 hover:text-orange-500 transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span className="text-sm">brianmihesoscoh@gmail.com</span>
+                </Link>
+              </div>
+
+              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <ChevronDown className="w-6 h-6 text-orange-500/60" />
+              </div>
             </div>
           </section>
 
+          {/* Stats Section */}
+          <section className="my-20 sm:my-32">
+            <StatsSection />
+          </section>
+
+          {/* Featured Work Section */}
+          <section className="my-20 sm:my-32">
+            <div className="mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3">Featured Work</h2>
+              <p className="text-slate-400 text-lg">Highlighting key projects that showcase creative expertise</p>
+            </div>
+            <FeaturedWork />
+          </section>
+
           {/* Portfolio Section */}
-          <section id="portfolio" className="space-y-12 sm:space-y-16 my-20 sm:my-32">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Video Production & Cinematography</h2>
-              <p className="text-slate-400 mb-6">
-                Professional video content showcasing cinematography and storytelling expertise
+          <section id="portfolio" className="my-20 sm:my-32">
+            <div className="mb-12">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3">Complete Portfolio</h2>
+              <p className="text-slate-400 text-lg">
+                Browse all projects across video production, photography, and graphic design
               </p>
-              <div className="relative">
-                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
-                  {portfolioItems.video.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group block flex-shrink-0 w-72 sm:w-80 md:w-96 cursor-pointer"
-                      onClick={() => setSelectedProject(item)}
-                    >
-                      <div className="overflow-hidden rounded-lg">
-                        <Image
-                          src={item.src || "/placeholder.svg"}
-                          alt={item.title}
-                          width={500}
-                          height={300}
-                          className="aspect-video object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <h3 className="mt-3 text-base font-medium group-hover:text-amber-500 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-slate-400">{item.category}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
-
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Photography</h2>
-              <p className="text-slate-400 mb-6">
-                Professional photography across weddings, events, and corporate assignments
-              </p>
-              <div className="relative">
-                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
-                  {portfolioItems.photography.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group block flex-shrink-0 w-72 sm:w-80 md:w-96 cursor-pointer"
-                      onClick={() => setSelectedProject(item)}
-                    >
-                      <div className="overflow-hidden rounded-lg">
-                        <Image
-                          src={item.src || "/placeholder.svg"}
-                          alt={item.title}
-                          width={500}
-                          height={400}
-                          className="aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <h3 className="mt-3 text-base font-medium group-hover:text-amber-500 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-slate-400">{item.category}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Graphic Design & UI/UX</h2>
-              <p className="text-slate-400 mb-6">Brand identity, digital interfaces, and visual communication design</p>
-              <div className="relative">
-                <div className="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 -mb-4 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900">
-                  {portfolioItems.design.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group block flex-shrink-0 w-64 sm:w-72 md:w-80 cursor-pointer"
-                      onClick={() => setSelectedProject(item)}
-                    >
-                      <div className="overflow-hidden rounded-lg">
-                        <Image
-                          src={item.src || "/placeholder.svg"}
-                          alt={item.title}
-                          width={500}
-                          height={500}
-                          className="aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <h3 className="mt-3 text-base font-medium group-hover:text-amber-500 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-slate-400">{item.category}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <PortfolioGrid items={allPortfolioItems} onSelectProject={setSelectedProject} />
           </section>
 
           {/* Skills Section */}
           <section id="skills" className="my-20 sm:my-32">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-12">Core Skills & Expertise</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-12">Core Skills & Expertise</h2>
             <SkillsGrid skills={coreSkills} />
+          </section>
+
+          {/* Testimonials Section */}
+          <section className="my-20 sm:my-32">
+            <div className="mb-12">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3">Client Testimonials</h2>
+              <p className="text-slate-400 text-lg">
+                What clients and collaborators have to say about working together
+              </p>
+            </div>
+            <TestimonialsSection />
           </section>
 
           {/* About Section */}
           <section id="about" className="my-20 sm:my-32">
-            <div className="grid md:grid-cols-2 gap-12 items-start">
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
               <div>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">About Me</h2>
-                <div className="space-y-4 text-slate-300 leading-relaxed">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">About Me</h2>
+                <div className="space-y-6 text-slate-300 leading-relaxed text-lg">
                   <p>
                     I'm a trained journalist with a BSc in Communication and Journalism from Maasai Mara University,
                     accredited by the Media Council of Kenya. With a passion for multimedia storytelling, I combine
@@ -400,20 +389,28 @@ export default function DesignerPortfolio() {
                 </div>
               </div>
               <div>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">Education</h2>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">Education</h2>
                 <div className="space-y-6">
-                  <div className="border-l-2 border-amber-500 pl-4">
-                    <h3 className="font-semibold text-lg">BSc in Communication and Journalism</h3>
-                    <p className="text-amber-500">Maasai Mara University</p>
-                    <p className="text-sm text-slate-400">Accredited by Media Council of Kenya</p>
+                  <div className="border-l-2 border-orange-500 pl-4 py-2">
+                    <h3 className="font-semibold text-lg text-white">BSc in Communication and Journalism</h3>
+                    <p className="text-orange-500 font-semibold">Maasai Mara University</p>
+                    <p className="text-sm text-slate-400 mt-2">Accredited by Media Council of Kenya</p>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-lg text-slate-300">Professional Focus</h3>
-                    <ul className="text-sm text-slate-400 space-y-2 mt-2">
-                      <li>• Corporate Communication & Media Relations</li>
-                      <li>• Multimedia Content Creation</li>
-                      <li>• Visual Storytelling & Design</li>
-                      <li>• Strategic Communication Planning</li>
+                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-4">
+                    <h3 className="font-semibold text-lg text-white mb-3">Professional Focus</h3>
+                    <ul className="text-sm text-slate-300 space-y-2">
+                      <li className="flex items-center gap-2">
+                        <span className="text-orange-500">•</span> Corporate Communication & Media Relations
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-orange-500">•</span> Multimedia Content Creation
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-orange-500">•</span> Visual Storytelling & Design
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-orange-500">•</span> Strategic Communication Planning
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -423,8 +420,8 @@ export default function DesignerPortfolio() {
 
           {/* Experience Timeline */}
           <section id="experience" className="my-20 sm:my-32">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-12">Work Experience</h2>
-            <div className="space-y-8">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-12">Work Experience</h2>
+            <div className="space-y-0">
               {workExperience.map((exp, index) => (
                 <TimelineItem key={index} {...exp} isLast={index === workExperience.length - 1} />
               ))}
@@ -433,8 +430,8 @@ export default function DesignerPortfolio() {
 
           {/* Contact Section */}
           <section id="contact" className="my-20 sm:my-32 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Let's Create Together</h2>
-            <p className="max-w-xl mx-auto text-slate-400 mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">Let's Create Together</h2>
+            <p className="max-w-xl mx-auto text-slate-400 text-lg mb-12">
               Have a project in mind or want to collaborate? I'd love to hear from you.
             </p>
             <ContactForm />
@@ -443,7 +440,7 @@ export default function DesignerPortfolio() {
               <div className="flex justify-center items-center space-x-6 sm:space-x-8">
                 <Link
                   href="mailto:brianmihesoscoh@gmail.com"
-                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                  className="text-slate-400 hover:text-orange-500 transition-colors hover:scale-110 duration-300"
                 >
                   <Mail className="w-7 h-7 sm:w-8 sm:h-8" />
                   <span className="sr-only">Email</span>
@@ -451,7 +448,7 @@ export default function DesignerPortfolio() {
                 <Link
                   href="https://www.linkedin.com/in/brian-miheso-98b962a1/"
                   target="_blank"
-                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                  className="text-slate-400 hover:text-orange-500 transition-colors hover:scale-110 duration-300"
                 >
                   <Linkedin className="w-7 h-7 sm:w-8 sm:h-8" />
                   <span className="sr-only">LinkedIn</span>
@@ -459,7 +456,7 @@ export default function DesignerPortfolio() {
                 <Link
                   href="https://www.behance.net/brianmihesoscoh"
                   target="_blank"
-                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                  className="text-slate-400 hover:text-orange-500 transition-colors hover:scale-110 duration-300"
                 >
                   <Behance className="w-7 h-7 sm:w-8 sm:h-8" />
                   <span className="sr-only">Behance</span>
@@ -467,7 +464,7 @@ export default function DesignerPortfolio() {
                 <Link
                   href="https://www.youtube.com/@user-BrianMiheso"
                   target="_blank"
-                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                  className="text-slate-400 hover:text-orange-500 transition-colors hover:scale-110 duration-300"
                 >
                   <Youtube className="w-7 h-7 sm:w-8 sm:h-8" />
                   <span className="sr-only">YouTube</span>
@@ -478,6 +475,16 @@ export default function DesignerPortfolio() {
         </main>
 
         <ProjectModal project={selectedProject} isOpen={!!selectedProject} onClose={() => setSelectedProject(null)} />
+
+        {showScrollTop && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg z-20"
+            aria-label="Scroll to top"
+          >
+            <ChevronDown className="w-6 h-6 rotate-180" />
+          </button>
+        )}
 
         <footer className="container mx-auto px-6 py-8 text-center text-slate-500 border-t border-slate-700/50">
           <p>
