@@ -133,9 +133,17 @@
   }
 }
 
-/* Smooth scroll behavior and section transitions */
+/* Enhanced smooth scroll behavior with padding offset for fixed navbar and slower scroll speed */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Smooth scroll animation with custom timing for slower feel */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Enhanced animations */

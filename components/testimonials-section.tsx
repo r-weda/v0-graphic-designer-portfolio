@@ -79,17 +79,17 @@ export function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Navigation Buttons */}
+        {/* On mobile (sm): buttons positioned below carousel, on desktop (sm:): positioned on sides */}
         <button
           onClick={prev}
-          className="absolute -left-12 sm:-left-16 top-1/2 transform -translate-y-1/2 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10"
+          className="absolute -bottom-16 left-1/3 sm:-bottom-auto sm:top-1/2 sm:-left-16 transform sm:-translate-y-1/2 -translate-x-1/2 sm:translate-x-0 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10 w-12 h-12 flex items-center justify-center"
           aria-label="Previous testimonial"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
           onClick={next}
-          className="absolute -right-12 sm:-right-16 top-1/2 transform -translate-y-1/2 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10"
+          className="absolute -bottom-16 right-1/3 sm:-bottom-auto sm:top-1/2 sm:-right-16 transform sm:-translate-y-1/2 translate-x-1/2 sm:translate-x-0 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10 w-12 h-12 flex items-center justify-center"
           aria-label="Next testimonial"
         >
           <ChevronRight className="w-6 h-6" />
@@ -97,7 +97,7 @@ export function TestimonialsSection() {
       </div>
 
       {/* Dot Navigation Indicators */}
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2 pt-8 sm:pt-0">
         {testimonials.map((_, index) => (
           <button
             key={index}

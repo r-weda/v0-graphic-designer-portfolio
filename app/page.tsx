@@ -173,7 +173,30 @@ export default function DesignerPortfolio() {
   }, [lastScrollY])
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    const target = 0
+    const duration = 1200 // 1.2 seconds for smooth, relaxed scrolling
+    const easeFunction = (t: number) => {
+      // Cubic-bezier easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      return t < 0.5 ? 2 * t * t * ((-0.79 + t * 3) * t + 1.79) : 1 - Math.pow(-2 * t + 2, 3) / 2
+    }
+
+    const startPosition = window.scrollY
+    const distance = startPosition - target
+    let startTime: number | null = null
+
+    const animation = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+
+      window.scrollTo(0, startPosition - distance * easeFunction(progress))
+
+      if (progress < 1) {
+        requestAnimationFrame(animation)
+      }
+    }
+
+    requestAnimationFrame(animation)
   }
 
   const handleMouseOver = (e: React.MouseEvent<HTMLDivElement>) => {
