@@ -196,7 +196,7 @@ export default function DesignerPortfolio() {
 
   return (
     <div
-      className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen font-sans relative z-0"
+      className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen font-sans relative z-0 overflow-x-hidden"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
@@ -204,11 +204,11 @@ export default function DesignerPortfolio() {
       <div className="relative z-10">
         <header
           ref={navbarRef}
-          className={`fixed top-0 z-30 w-full p-4 sm:p-6 bg-slate-950/90 backdrop-blur-md border-b border-orange-500/20 transition-all duration-300 ease-out ${
+          className={`fixed top-0 left-0 right-0 z-40 w-full p-4 sm:p-6 bg-slate-950/90 backdrop-blur-md border-b border-orange-500/20 transition-transform duration-300 ease-out ${
             isNavbarVisible ? "translate-y-0" : "-translate-y-full"
           }`}
         >
-          <div className="container mx-auto flex items-center justify-between">
+          <div className="container mx-auto flex items-center justify-between max-w-7xl px-0">
             <Link
               href="#"
               className="text-2xl font-bold tracking-tight bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent"
@@ -230,18 +230,18 @@ export default function DesignerPortfolio() {
               </Link>
             </nav>
             <Button
-              className="md:hidden"
+              className="md:hidden relative z-50"
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
 
           {isMobileMenuOpen && (
-            <nav className="md:hidden mt-4 space-y-3 border-t border-slate-700/50 pt-4">
+            <nav className="md:hidden fixed top-20 left-0 right-0 bg-slate-950/95 backdrop-blur-md border-b border-slate-700/50 px-4 sm:px-6 py-4 space-y-3 z-40">
               <Link
                 href="#portfolio"
                 className="block px-2 py-2 text-slate-300 hover:text-orange-500 transition-colors text-sm font-medium"
@@ -274,9 +274,9 @@ export default function DesignerPortfolio() {
           )}
         </header>
 
-        <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 pt-20">
+        <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 pt-20 max-w-7xl overflow-x-hidden">
           <section className="relative min-h-screen flex items-center justify-center py-20 sm:py-32">
-            <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
               <div className="absolute top-0 right-0 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl"></div>
             </div>
@@ -487,7 +487,7 @@ export default function DesignerPortfolio() {
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg z-20"
+            className="fixed bottom-8 right-8 w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg z-40"
             aria-label="Scroll to top"
           >
             <ChevronDown className="w-6 h-6 rotate-180" />

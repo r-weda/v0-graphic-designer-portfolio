@@ -203,6 +203,7 @@ html {
 }
 
 /* added animations for navbar hide/show effect and enhanced scrollbar */
+/* reduced auto-play animations and removed hover-based animations that cause continuous movement */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -244,13 +245,14 @@ html {
   }
 }
 
-@keyframes float {
+/* removed continuous float animation - only use on user interaction */
+@keyframes floatHover {
   0%,
   100% {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
 }
 
@@ -265,10 +267,6 @@ html {
 
 .pulse-glow {
   animation: pulse-glow 2s infinite;
-}
-
-.float {
-  animation: float 3s ease-in-out infinite;
 }
 
 .shimmer {

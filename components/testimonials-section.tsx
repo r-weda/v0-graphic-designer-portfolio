@@ -1,7 +1,7 @@
 "use client"
 
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 interface Testimonial {
   quote: string
@@ -11,7 +11,7 @@ interface Testimonial {
 
 export function TestimonialsSection() {
   const [current, setCurrent] = useState(0)
-  const [autoPlay, setAutoPlay] = useState(true)
+  const [autoPlay] = useState(false)
 
   const testimonials: Testimonial[] = [
     {
@@ -34,22 +34,12 @@ export function TestimonialsSection() {
     },
   ]
 
-  useEffect(() => {
-    if (!autoPlay) return
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [autoPlay, testimonials.length])
-
   const next = () => {
     setCurrent((prev) => (prev + 1) % testimonials.length)
-    setAutoPlay(false)
   }
 
   const prev = () => {
     setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-    setAutoPlay(false)
   }
 
   return (
@@ -92,8 +82,6 @@ export function TestimonialsSection() {
         {/* Navigation Buttons */}
         <button
           onClick={prev}
-          onMouseEnter={() => setAutoPlay(false)}
-          onMouseLeave={() => setAutoPlay(true)}
           className="absolute -left-12 sm:-left-16 top-1/2 transform -translate-y-1/2 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10"
           aria-label="Previous testimonial"
         >
@@ -101,8 +89,6 @@ export function TestimonialsSection() {
         </button>
         <button
           onClick={next}
-          onMouseEnter={() => setAutoPlay(false)}
-          onMouseLeave={() => setAutoPlay(true)}
           className="absolute -right-12 sm:-right-16 top-1/2 transform -translate-y-1/2 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10"
           aria-label="Next testimonial"
         >
@@ -115,10 +101,7 @@ export function TestimonialsSection() {
         {testimonials.map((_, index) => (
           <button
             key={index}
-            onClick={() => {
-              setCurrent(index)
-              setAutoPlay(false)
-            }}
+            onClick={() => setCurrent(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
               index === current ? "bg-orange-500 w-8" : "bg-slate-600 hover:bg-slate-500"
             }`}
