@@ -44,52 +44,75 @@ export function TestimonialsSection() {
 
   return (
     <div className="space-y-8">
-      <div className="relative max-w-2xl mx-auto">
-        {/* Carousel Items */}
-        <div className="relative h-96 sm:h-80">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
-                index === current
-                  ? "opacity-100 scale-100 translate-x-0"
-                  : index > current
-                    ? "opacity-0 scale-95 translate-x-full"
-                    : "opacity-0 scale-95 -translate-x-full"
-              }`}
-            >
-              <div className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-8 h-full flex flex-col hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10">
-                <Quote className="w-8 h-8 text-orange-500/30 mb-4 group-hover:text-orange-500 transition-colors" />
-                <p className="text-slate-300 leading-relaxed mb-6 flex-1 text-base sm:text-lg">{testimonial.quote}</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-slate-700">
-                  <div className="flex-1">
-                    <p className="font-semibold text-white">{testimonial.author}</p>
-                    <p className="text-sm text-slate-400">{testimonial.role}</p>
-                  </div>
-                  <div className="flex gap-1">
-                    {Array(5)
-                      .fill(null)
-                      .map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
-                      ))}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-6 md:gap-8">
+        {/* Left arrow - hidden on mobile, shown on desktop */}
+        <button
+          onClick={prev}
+          className="hidden md:flex items-center justify-center w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-all duration-300 hover:scale-110 z-10 flex-shrink-0"
+          aria-label="Previous testimonial"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+
+        {/* Carousel container */}
+        <div className="relative max-w-2xl w-full mx-auto md:mx-0">
+          {/* Carousel Items */}
+          <div className="relative h-96 sm:h-80">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
+                  index === current
+                    ? "opacity-100 scale-100 translate-x-0"
+                    : index > current
+                      ? "opacity-0 scale-95 translate-x-full"
+                      : "opacity-0 scale-95 -translate-x-full"
+                }`}
+              >
+                <div className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-8 h-full flex flex-col hover:border-orange-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10">
+                  <Quote className="w-8 h-8 text-orange-500/30 mb-4 group-hover:text-orange-500 transition-colors" />
+                  <p className="text-slate-300 leading-relaxed mb-6 flex-1 text-base sm:text-lg">{testimonial.quote}</p>
+                  <div className="flex items-center gap-3 pt-4 border-t border-slate-700">
+                    <div className="flex-1">
+                      <p className="font-semibold text-white">{testimonial.author}</p>
+                      <p className="text-sm text-slate-400">{testimonial.role}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      {Array(5)
+                        .fill(null)
+                        .map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
+                        ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* On mobile (sm): buttons positioned below carousel, on desktop (sm:): positioned on sides */}
+        {/* Right arrow - hidden on mobile, shown on desktop */}
+        <button
+          onClick={next}
+          className="hidden md:flex items-center justify-center w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-all duration-300 hover:scale-110 z-10 flex-shrink-0"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Mobile arrow navigation - shown below carousel on mobile */}
+      <div className="flex md:hidden justify-center gap-16 px-4">
         <button
           onClick={prev}
-          className="absolute -bottom-16 left-1/3 sm:-bottom-auto sm:top-1/2 sm:-left-16 transform sm:-translate-y-1/2 -translate-x-1/2 sm:translate-x-0 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10 w-12 h-12 flex items-center justify-center"
+          className="flex items-center justify-center w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-all duration-300 active:scale-95"
           aria-label="Previous testimonial"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
           onClick={next}
-          className="absolute -bottom-16 right-1/3 sm:-bottom-auto sm:top-1/2 sm:-right-16 transform sm:-translate-y-1/2 translate-x-1/2 sm:translate-x-0 bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-all duration-300 hover:scale-110 z-10 w-12 h-12 flex items-center justify-center"
+          className="flex items-center justify-center w-12 h-12 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-all duration-300 active:scale-95"
           aria-label="Next testimonial"
         >
           <ChevronRight className="w-6 h-6" />
@@ -97,7 +120,7 @@ export function TestimonialsSection() {
       </div>
 
       {/* Dot Navigation Indicators */}
-      <div className="flex justify-center gap-2 pt-8 sm:pt-0">
+      <div className="flex justify-center gap-2">
         {testimonials.map((_, index) => (
           <button
             key={index}
